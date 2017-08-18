@@ -53,6 +53,17 @@ class RobotDynCode(object):
 
         self.dyn = Dynamics(self.rbtdef, self.geo)
 
+        p('Generating forward kinematics code: end-effector transformation matrix')
+        geo2_se = Subexprs()
+        geo2 = Geometry(self.rbtdef, geo2_se.collect)
+        self.fkine_T_code = geo2_se.get(geo2.T[-1])
+ 
+        p('Generating forward kinematics code: end-effector position vector')
+        self.fkine_p_code = geo2_se.get(geo2.p[-1])
+ 
+        p('Generating forward kinematics code: end-effector rotation matrix')
+        self.fkine_R_code = geo2_se.get(geo2.R[-1])
+
         p('generating end-effector jacobian code')
         jac_se = Subexprs()
         kin2 = Kinematics(self.rbtdef, self.geo, jac_se.collect)
