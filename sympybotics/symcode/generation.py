@@ -6,6 +6,7 @@ import re
 
 options = {}
 options['unroll_square'] = True
+options['custom_sign_func'] = True
 
 
 def apply_func(code, func, apply_to_ivs=True):
@@ -50,10 +51,10 @@ def code_back_to_exprs(code):
 def _ccode(expr, ):
     code = sympy.ccode(expr)
     if options['unroll_square']:
-        return re.sub(r'pow\(([^,]*), 2\)', r'((\1)*(\1))', code)
-    else:
-        return code
-
+        code =  re.sub(r'pow\(([^,]*), 2\)', r'((\1)*(\1))', code)
+    if options['custom_sign_func']:
+        code =  re.sub(r'\(\(([^,]*)\) > 0\) - \(\(([^,]*)\) < 0\)', r'Sign(\1)', code)
+    return code
 
 def _juliacode(expr, ):
     code = sympy.printing.lambdarepr.lambdarepr(expr)
