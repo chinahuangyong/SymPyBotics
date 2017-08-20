@@ -221,6 +221,8 @@ def code_to_func(lang, code, out_parms, func_name, func_parms, symb_replace):
         gen_func = gen_c_func
     elif lang in ['julia', 'jl']:
         gen_func = gen_julia_func
+    elif lang in ['matlab', 'm']:
+        gen_func = gen_matlab_func
     else:
         raise Exception('chosen language not supported.')
 
