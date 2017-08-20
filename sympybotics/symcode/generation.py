@@ -60,9 +60,12 @@ def _juliacode(expr, ):
     code = sympy.printing.lambdarepr.lambdarepr(expr)
     return code.replace('**', '^')
 
+def _matlabcode(expr, ):
+    code = sympy.printing.lambdarepr.lambdarepr(expr)
+    return code.replace('**', '^')
 
 def code_to_string(code, out_parms, printer, indent='', realtype='',
-                   line_end='', outidxoffset=0):
+                   line_end='', outidxoffset=0, brackets=['[',']']):
 
     codestr = ''
 
@@ -78,7 +81,7 @@ def code_to_string(code, out_parms, printer, indent='', realtype='',
         codestr += '\n'
         for i in range(len(code[1][c])):
             codestr += indent + out + \
-                '[' + str(i+outidxoffset) + '] = ' + \
+                brackets[0] + str(i+outidxoffset) + brackets[1] + ' = ' + \
                 printer(code[1][c][i]) + line_end + '\n'
 
     return codestr
@@ -101,6 +104,25 @@ def codestring_count(codestring, resume=False):
         muls = int(codestring.count('*')) + int(
             codestring.count('/')) + int(codestring.count('pow'))
         return ops, {'add': adds, 'mul': muls, 'total': adds + muls}
+
+def gen_matlab_func(code, out_parms, func_parms, func_name='func'):
+
+    indent = 4 * ' '
+
+    matlabcode = 'function [' + ', '.join(out_parms) + '] = ' + func_name
+    matlabcode += '(' + ', '.join(func_parms) + ')\n\n'
+
+    for i, out in enumerate(out_parms):
+        matlabcode += indent + out + ' = zeros(' + str(len(code[1][i])) + ', 1);\n'
+
+    matlabcode += '\n'
+
+    mainmatlabcode = code_to_string(code, out_parms, _matlabcode, line_end=';',
+                                    outidxoffset=1, brackets=['(',')'])
+
+    matlabcode += mainmatlabcode
+
+    return matlabcode
 
 
 def gen_py_func(code, out_parms, func_parms, func_name='func'):

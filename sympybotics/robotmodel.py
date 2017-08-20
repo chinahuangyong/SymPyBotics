@@ -100,8 +100,8 @@ class RobotDynCode(object):
         self.H_code = H_se.get(self.dyn.H)
         self._H_se = H_se._subexp_iv
 
-        self._codes = ['jac_code', 'invdyn_code', 'g_code', 'c_code', 'C_code', 'M_code',
-                       'H_code']
+        self._codes = ['fkine_T_code', 'fkine_p_code', 'fkine_R_code', 'jac_code', 
+                       'invdyn_code', 'g_code', 'c_code', 'C_code', 'M_code', 'H_code']
 
         if self.rbtdef.frictionmodel is not None:
             p('generating friction term code')
