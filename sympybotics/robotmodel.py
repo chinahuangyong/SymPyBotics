@@ -66,6 +66,7 @@ class RobotDynCode(object):
         jac_se = Subexprs()
         kin2 = Kinematics(self.rbtdef, self.geo, jac_se.collect)
         self.jac_code = jac_se.get(kin2.J[-1])
+        self.jacinv_code = jac_se.get(kin2.J[-1].inv())
 
         self.dyn = Dynamics(self.rbtdef, self.geo)
         
@@ -93,6 +94,7 @@ class RobotDynCode(object):
         M_se = Subexprs()
         self.dyn.gen_inertiamatrix(M_se.collect)
         self.M_code = M_se.get(self.dyn.M)
+        #self.Minv_code = M_se.get(self.dyn.M.inv())
 
         p('generating regressor matrix code')
         H_se = Subexprs()

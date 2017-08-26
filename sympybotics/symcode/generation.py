@@ -117,7 +117,7 @@ def gen_matlab_func(code, out_parms, func_parms, func_name='func'):
 
     matlabcode += '\n'
 
-    mainmatlabcode = code_to_string(code, out_parms, _matlabcode, line_end=';',
+    mainmatlabcode = code_to_string(code, out_parms, _matlabcode, indent, line_end=';',
                                     outidxoffset=1, brackets=['(',')'])
 
     matlabcode += mainmatlabcode
