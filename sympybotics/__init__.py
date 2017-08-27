@@ -8,3 +8,4 @@ from .kinematics import Kinematics
 from .dynamics import Dynamics
 from .robotcodegen import robot_code_to_func
 from .robotmodel import RobotAllSymb, RobotDynCode
+from .simulation import Simulation
