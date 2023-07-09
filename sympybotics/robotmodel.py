@@ -66,7 +66,7 @@ class RobotDynCode(object):
         jac_se = Subexprs()
         kin2 = Kinematics(self.rbtdef, self.geo, jac_se.collect)
         self.jac_code = jac_se.get(kin2.J[-1])
-        self.jacinv_code = jac_se.get(kin2.J[-1].inv())
+        self.jacinv_code = jac_se.get(kin2.J[-1].pinv())
 
         self.dyn = Dynamics(self.rbtdef, self.geo)
         
